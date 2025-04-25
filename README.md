@@ -41,7 +41,8 @@ JWT_SECRET=your_jwt_secret_key
 MONGO_URI=your_mongodb_connection_string
 ```
 
-Step 4: Run the Project
+### Step 4: Run the Project
+
 Start the Server
 ```bash
 cd server
