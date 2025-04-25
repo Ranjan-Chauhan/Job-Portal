@@ -15,6 +15,8 @@ import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../../../redux/slices/authSlice";
 
+// const BASE_URL = import.meta.env.VITE_BASE_URL;
+
 export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -34,12 +36,15 @@ export default function Login() {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:5000/api/v1/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify(form),
-      });
+      const res = await fetch(
+        `https://job-portal-877n.onrender.com/api/v1/auth/login`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify(form),
+        }
+      );
 
       const data = await res.json();
 

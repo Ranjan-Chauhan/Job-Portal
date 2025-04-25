@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { IoCloudUploadOutline } from "react-icons/io5";
 
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+
 const ApplyJob = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -32,7 +34,7 @@ const ApplyJob = () => {
       const token = localStorage.getItem("token");
       // Call the API to submit the application
       const response = await fetch(
-        `http://localhost:5000/api/v1/applications/apply/${id}`,
+        `${BASE_URL}/api/v1/applications/apply/${id}`,
         {
           method: "POST",
           headers: {

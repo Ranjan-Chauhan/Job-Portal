@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoBriefcaseOutline, IoArrowBackOutline } from "react-icons/io5";
 
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+
 const AppliedJobs = () => {
   const [appliedJobs, setAppliedJobs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -13,7 +15,7 @@ const AppliedJobs = () => {
     const fetchAppliedJobs = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/api/v1/applications/my-applications",
+          `${BASE_URL}/api/v1/applications/my-applications`,
           {
             method: "GET",
             headers: {

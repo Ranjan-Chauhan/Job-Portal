@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+
 const SearchResults = () => {
   const location = useLocation();
   const [jobs, setJobs] = useState([]);
@@ -13,7 +15,7 @@ const SearchResults = () => {
     const fetchJobs = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/v1/jobs/search?query=${query}`
+          `${BASE_URL}/api/v1/jobs/search?query=${query}`
         );
         const data = await response.json();
         if (data.success) {
@@ -52,3 +54,5 @@ const SearchResults = () => {
 };
 
 export default SearchResults;
+
+// https://job-portal-877n.onrender.com

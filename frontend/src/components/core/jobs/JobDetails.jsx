@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router";
 import { IoArrowBackOutline } from "react-icons/io5";
 
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+
 const JobDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -14,7 +16,7 @@ const JobDetails = () => {
   useEffect(() => {
     const fetchJobDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/v1/jobs/${id}`);
+        const response = await fetch(`${BASE_URL}/api/v1/jobs/${id}`);
         const data = await response.json();
 
         if (response.ok) {

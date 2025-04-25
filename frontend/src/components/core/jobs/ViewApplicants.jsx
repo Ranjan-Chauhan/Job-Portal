@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { FiArrowLeft, FiDownload } from "react-icons/fi";
 
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+
 const ViewApplicants = () => {
   const { jobId } = useParams();
   const navigate = useNavigate();
@@ -14,7 +16,7 @@ const ViewApplicants = () => {
     const fetchApplicants = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/v1/applications/job/${jobId}/applicants`,
+          `${BASE_URL}/api/v1/applications/job/${jobId}/applicants`,
           {
             method: "GET",
             headers: {

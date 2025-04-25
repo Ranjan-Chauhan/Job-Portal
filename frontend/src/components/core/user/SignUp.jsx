@@ -22,6 +22,8 @@ import { IoCloudUploadOutline } from "react-icons/io5";
 import axios from "axios";
 import { useNavigate } from "react-router";
 
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+
 const skillOptions = ["JavaScript", "React", "Node.js", "Python", "Java"];
 
 export default function SignUp() {
@@ -70,7 +72,7 @@ export default function SignUp() {
       if (profileImage) payload.append("profileImage", profileImage);
 
       const res = await axios.post(
-        "http://localhost:5000/api/v1/auth/register",
+        `${BASE_URL}/api/v1/auth/register`,
         payload,
         {
           headers: {

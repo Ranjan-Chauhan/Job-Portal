@@ -8,6 +8,8 @@ import {
   FiUsers,
 } from "react-icons/fi";
 
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+
 const ManageJobs = () => {
   const navigate = useNavigate();
   const [jobPosts, setJobPosts] = useState([]);
@@ -22,7 +24,7 @@ const ManageJobs = () => {
     try {
       setLoading(true);
       const response = await fetch(
-        `http://localhost:5000/api/v1/jobs?page=${page}&limit=${limit}`
+        `${BASE_URL}/api/v1/jobs?page=${page}&limit=${limit}`
       );
       const result = await response.json();
 
@@ -55,7 +57,7 @@ const ManageJobs = () => {
     if (!confirmDelete) return;
 
     try {
-      const response = await fetch(`http://localhost:5000/api/v1/jobs/${id}`, {
+      const response = await fetch(`${BASE_URL}/api/v1/jobs/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,

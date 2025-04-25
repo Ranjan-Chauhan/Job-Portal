@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+
 const Jobs = () => {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -15,7 +17,7 @@ const Jobs = () => {
     const fetchJobs = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/v1/jobs?page=${page}&limit=${limit}`
+          `${BASE_URL}/api/v1/jobs?page=${page}&limit=${limit}`
         );
         const data = await response.json();
         console.log("data: ", data);

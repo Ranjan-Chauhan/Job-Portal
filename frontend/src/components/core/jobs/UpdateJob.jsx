@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+
 const UpdateJob = () => {
   const { jobId } = useParams();
   const navigate = useNavigate();
@@ -22,14 +24,11 @@ const UpdateJob = () => {
   useEffect(() => {
     const fetchJob = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:5000/api/v1/jobs/${jobId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
+        const response = await axios.get(`${BASE_URL}/api/v1/jobs/${jobId}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
         const job = response.data.job;
         console.log("fetched job :", job);
 
