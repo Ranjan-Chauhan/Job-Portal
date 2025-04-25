@@ -34,7 +34,7 @@ const ApplyJob = () => {
       const token = localStorage.getItem("token");
       // Call the API to submit the application
       const response = await fetch(
-        `${BASE_URL}/api/v1/applications/apply/${id}`,
+        `https://job-portal-877n.onrender.com/api/v1/applications/apply/${id}`,
         {
           method: "POST",
           headers: {

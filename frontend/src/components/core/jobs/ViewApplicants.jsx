@@ -16,7 +16,7 @@ const ViewApplicants = () => {
     const fetchApplicants = async () => {
       try {
         const response = await fetch(
-          `${BASE_URL}/api/v1/applications/job/${jobId}/applicants`,
+          `https://job-portal-877n.onrender.com/api/v1/applications/job/${jobId}/applicants`,
           {
             method: "GET",
             headers: {

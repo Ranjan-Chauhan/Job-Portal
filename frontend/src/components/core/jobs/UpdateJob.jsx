@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 
-const BASE_URL = import.meta.env.VITE_BASE_URL;
+// const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const UpdateJob = () => {
   const { jobId } = useParams();
@@ -24,11 +24,14 @@ const UpdateJob = () => {
   useEffect(() => {
     const fetchJob = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/api/v1/jobs/${jobId}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
+        const response = await axios.get(
+          `https://job-portal-877n.onrender.com/api/v1/jobs/${jobId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
         const job = response.data.job;
         console.log("fetched job :", job);
 
@@ -66,11 +69,15 @@ const UpdateJob = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:5000/api/v1/jobs/${jobId}`, formData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      await axios.put(
+        `https://job-portal-877n.onrender.com/api/v1/jobs/${jobId}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
       navigate("/manage-jobs");
     } catch (err) {
       setError(err.response?.data?.message || "Failed to update job");

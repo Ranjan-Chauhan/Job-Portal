@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const BASE_URL = import.meta.env.VITE_BASE_URL;
+// const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const Jobs = () => {
   const [jobs, setJobs] = useState([]);
@@ -17,7 +17,7 @@ const Jobs = () => {
     const fetchJobs = async () => {
       try {
         const response = await fetch(
-          `${BASE_URL}/api/v1/jobs?page=${page}&limit=${limit}`
+          `https://job-portal-877n.onrender.com/api/v1/jobs?page=${page}&limit=${limit}`
         );
         const data = await response.json();
         console.log("data: ", data);

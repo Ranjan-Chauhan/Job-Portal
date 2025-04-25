@@ -8,7 +8,7 @@ import {
   FiUsers,
 } from "react-icons/fi";
 
-const BASE_URL = import.meta.env.VITE_BASE_URL;
+// const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const ManageJobs = () => {
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ const ManageJobs = () => {
     try {
       setLoading(true);
       const response = await fetch(
-        `${BASE_URL}/api/v1/jobs?page=${page}&limit=${limit}`
+        `https://job-portal-877n.onrender.com/api/v1/jobs?page=${page}&limit=${limit}`
       );
       const result = await response.json();
 
@@ -57,12 +57,15 @@ const ManageJobs = () => {
     if (!confirmDelete) return;
 
     try {
-      const response = await fetch(`${BASE_URL}/api/v1/jobs/${id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const response = await fetch(
+        `https://job-portal-877n.onrender.com/api/v1/jobs/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
       const result = await response.json();
 

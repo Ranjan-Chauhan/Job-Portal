@@ -16,7 +16,9 @@ const JobDetails = () => {
   useEffect(() => {
     const fetchJobDetails = async () => {
       try {
-        const response = await fetch(`${BASE_URL}/api/v1/jobs/${id}`);
+        const response = await fetch(
+          `https://job-portal-877n.onrender.com/api/v1/jobs/${id}`
+        );
         const data = await response.json();
 
         if (response.ok) {

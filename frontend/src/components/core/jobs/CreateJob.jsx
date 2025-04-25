@@ -29,7 +29,7 @@ const CreateJob = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `${BASE_URL}/api/v1/jobs/create`,
+        `https://job-portal-877n.onrender.com/api/v1/jobs/create`,
         formData,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
