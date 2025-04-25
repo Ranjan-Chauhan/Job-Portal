@@ -11,13 +11,14 @@ import applicationRoutes from "./routes/application.routes.js";
 
 const app = express();
 
-app.use(
-  cors({
-    origin: "https://job-portal-877n.onrender.com",
-    credentials: true,
-  })
-);
+// app.use(
+//   cors({
+//     origin: "http://localhost:5173",
+//     credentials: true,
+//   })
+// );
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
