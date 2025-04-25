@@ -74,7 +74,7 @@ Now you can access the application at http://localhost:3000
 
 ### Technologies Used:
 
-1. **Frontend:** React.js, TailwindCSS, React Router
+1. **Frontend:** React.js, TailwindCSS, React Router, Redux
 
 2. **Backend:** Node.js, Express.js, MongoDB, JWT, Multer
 
