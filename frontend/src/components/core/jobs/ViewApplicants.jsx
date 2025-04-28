@@ -57,51 +57,93 @@ const ViewApplicants = () => {
     navigate("/manage-jobs");
   };
 
+  // const handleDownload = async (applicationId) => {
+  //   try {
+  //     const token = localStorage.getItem("token");
+
+  //     if (!token) {
+  //       logoutAndRedirect();
+  //       return;
+  //     }
+
+  //     const response = await fetch(
+  //       `${BASE_URL}/api/v1/applications/download/${applicationId}`,
+  //       {
+  //         method: "GET",
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       }
+  //     );
+
+  //     if (response.status === 401) {
+  //       logoutAndRedirect();
+  //       return;
+  //     }
+
+  //     if (response.ok) {
+  //       // If the response is ok, trigger file download
+  //       const blob = await response.blob();
+  //       const link = document.createElement("a");
+  //       link.href = URL.createObjectURL(blob);
+  //       link.download = "resume.pdf"; // You can adjust the filename here
+  //       link.click();
+  //     } else {
+  //       console.error("Download failed: ", response.statusText);
+  //       alert("Failed to download the resume.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error downloading resume: ", error);
+  //     alert("Something went wrong while downloading the resume.");
+  //   }
+  // };
+
   const handleDownload = async (applicationId) => {
     try {
       const token = localStorage.getItem("token");
-
       if (!token) {
         logoutAndRedirect();
         return;
       }
 
-      const response = await fetch(
-        `${BASE_URL}/api/v1/applications/download/${applicationId}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const downloadUrl = `${BASE_URL}/api/v1/applications/download/${applicationId}?token=${token}`;
+
+      const response = await fetch(downloadUrl, {
+        method: "GET",
+      });
 
       if (response.status === 401) {
-        logoutAndRedirect();
+        const errorData = await response.json();
+        if (errorData.error === "jwt expired") {
+          alert("Your session has expired. Please login again.");
+          logoutAndRedirect();
+        } else {
+          alert("Unauthorized. Please login again.");
+          logoutAndRedirect();
+        }
         return;
       }
 
-      if (response.ok) {
-        // If the response is ok, trigger file download
-        const blob = await response.blob();
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        link.download = "resume.pdf"; // You can adjust the filename here
-        link.click();
-      } else {
-        console.error("Download failed: ", response.statusText);
-        alert("Failed to download the resume.");
+      if (!response.ok) {
+        throw new Error("Download failed");
       }
+
+      // If success, continue download
+      const blob = await response.blob();
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "resume.pdf";
+      link.click();
     } catch (error) {
       console.error("Error downloading resume: ", error);
-      alert("Something went wrong while downloading the resume.");
+      alert("Something went wrong.");
     }
   };
 
   const logoutAndRedirect = () => {
     alert("Session expired. Please login again.");
 
-    dispatch(logout()); // <-- Clear Redux auth state
+    dispatch(logout()); //  Clear Redux auth state
     localStorage.removeItem("token");
     localStorage.removeItem("user");
 

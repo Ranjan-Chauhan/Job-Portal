@@ -9,7 +9,8 @@ export const verifyToken = async (req, res, next) => {
     const token =
       req.cookies?.token ||
       req.body?.token ||
-      req.header("Authorization")?.replace("Bearer ", "");
+      req.header("Authorization")?.replace("Bearer ", "") ||
+      req.query?.token; // <-- allow token in query params
 
     if (!token) {
       return res.status(401).json({

@@ -131,7 +131,8 @@ export const updateApplicationStatus = async (req, res) => {
   }
 };
 
-//
+//download resume controller
+
 export const downloadResume = async (req, res) => {
   try {
     const { applicationId } = req.params;
@@ -146,14 +147,13 @@ export const downloadResume = async (req, res) => {
         .json({ success: false, message: "Application not found" });
     }
 
-    // 2. Find the job associated with the application
+    // 2. Find the job
     const job = await Job.findById(application.jobId);
     if (!job) {
       return res.status(404).json({ success: false, message: "Job not found" });
     }
 
-    // 3. Authorization check:
-    // Only the employer who posted the job can download the resume
+    // 3. Authorization check
     if (
       job.postedBy.toString() !== currentUserId.toString() ||
       currentUserRole !== "employer"
@@ -164,36 +164,32 @@ export const downloadResume = async (req, res) => {
       });
     }
 
-    // 4. Resume file path
+    // 4. Resolve resume path
     const resumeDirectory = path.join(process.cwd(), "uploads", "resumes");
     const resumePath = path.join(resumeDirectory, application.resume);
 
-    // 5. Check if the file exists and is not a directory
-    fs.stat(resumePath, (err, stats) => {
+    // 5. Check if the file exists
+    if (!fs.existsSync(resumePath)) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Resume file not found" });
+    }
+
+    // 6. Set explicit headers
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename="${application.resume}"`
+    );
+    res.setHeader("Content-Type", "application/pdf");
+
+    // 7. Send file
+    res.download(resumePath, (err) => {
       if (err) {
-        console.error("Error accessing file:", err);
-        return res
+        console.error("Error sending file:", err);
+        res
           .status(500)
-          .json({ success: false, message: "Failed to access resume file" });
+          .json({ success: false, message: "Failed to download resume" });
       }
-
-      if (stats.isDirectory()) {
-        console.error("Resume path is a directory, not a file.");
-        return res.status(500).json({
-          success: false,
-          message: "Resume file is invalid (directory instead of file)",
-        });
-      }
-
-      // 6. Send the file download response
-      res.download(resumePath, application.resume, (err) => {
-        if (err) {
-          console.error("Error sending file:", err);
-          res
-            .status(500)
-            .json({ success: false, message: "Failed to download resume" });
-        }
-      });
     });
   } catch (error) {
     console.error("Server Error:", error);
