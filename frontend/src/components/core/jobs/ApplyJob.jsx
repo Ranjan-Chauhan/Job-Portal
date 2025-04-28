@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { IoCloudUploadOutline } from "react-icons/io5";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { logout } from "../../../redux/slices/authSlice";
 
-const BASE_URL = import.meta.env.VITE_BASE_URL;
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const ApplyJob = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
     resume: null,
@@ -24,7 +28,6 @@ const ApplyJob = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Prepare FormData to handle file upload
     const formDataToSubmit = new FormData();
     formDataToSubmit.append("jobId", id);
     formDataToSubmit.append("resume", formData.resume);
@@ -32,46 +35,72 @@ const ApplyJob = () => {
 
     try {
       const token = localStorage.getItem("token");
-      // Call the API to submit the application
-      const response = await fetch(
-        `https://job-portal-877n.onrender.com/api/v1/applications/apply/${id}`,
+
+      if (!token) {
+        logoutAndRedirect();
+        return;
+      }
+
+      const response = await axios.post(
+        `${BASE_URL}/api/v1/applications/apply/${id}`,
+        formDataToSubmit,
         {
-          method: "POST",
           headers: {
-            // Include the token if required for authentication
             Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
           },
-          body: formDataToSubmit,
         }
       );
 
-      const data = await response.json();
+      console.log("response apply: ", response);
 
-      if (data.success) {
+      if (response.data.success) {
         alert("Application submitted successfully!");
         navigate("/jobs");
       } else {
-        alert(data.message || "Something went wrong.");
+        alert(response.data.message || "Something went wrong.");
+        console.error(response.data.error);
       }
     } catch (error) {
-      console.error("Error submitting application:", error);
-      alert("An error occurred while submitting your application.");
+      if (error.response && error.response.status === 401) {
+        logoutAndRedirect();
+      } else {
+        console.error(
+          "Error submitting application:",
+          error.response?.data?.message || error.message
+        );
+        alert(
+          error.response?.data?.message ||
+            "Something went wrong. Please try again."
+        );
+      }
     }
+  };
+
+  const logoutAndRedirect = () => {
+    alert("Session expired. Please login again.");
+
+    dispatch(logout()); // <-- Clear Redux auth state
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
+    navigate("/login", { replace: true });
+    // window.location.reload(); // optional: full reload to reset app state
   };
 
   return (
     <div className="max-w-xl mx-auto px-4 py-10">
-      <h1 className="text-2xl sm:text-3xl font-bold text-center text-gray-800 mb-8">
+      <h1 className="text-xl sm:text-3xl font-bold text-center text-gray-800 mb-8">
         Apply for Job #{id}
       </h1>
 
       <form
         onSubmit={handleSubmit}
-        className="bg-white shadow-md p-6 rounded-xl space-y-5"
+        className="bg-white shadow-md p-6 flex flex-col justify-center items-center rounded-xl space-y-5"
         encType="multipart/form-data"
       >
         {/* Resume Upload */}
-        <div className="sm:w-4/5">
+        <div className="sm:w-4/5 ">
           <label className="block text-sm font-medium mb-1">Resume (PDF)</label>
           <div className="flex items-center gap-3 border px-3 py-2 rounded-md bg-gray-50">
             <IoCloudUploadOutline className="text-2xl text-gray-500" />
@@ -87,7 +116,7 @@ const ApplyJob = () => {
         </div>
 
         {/* Cover Letter */}
-        <div>
+        <div className="sm:w-4/5 w-auto">
           <label className="block text-sm font-medium mb-1">Cover Letter</label>
           <textarea
             name="coverLetter"
@@ -95,7 +124,7 @@ const ApplyJob = () => {
             placeholder="Write a short cover letter..."
             value={formData.coverLetter}
             onChange={handleChange}
-            className="w-full sm:w-4/5 border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 

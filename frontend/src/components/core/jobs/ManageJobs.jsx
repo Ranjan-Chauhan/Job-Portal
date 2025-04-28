@@ -8,7 +8,7 @@ import {
   FiUsers,
 } from "react-icons/fi";
 
-// const BASE_URL = import.meta.env.VITE_BASE_URL;
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const ManageJobs = () => {
   const navigate = useNavigate();
@@ -23,9 +23,11 @@ const ManageJobs = () => {
   const fetchJobs = async () => {
     try {
       setLoading(true);
-      const response = await fetch(
-        `https://job-portal-877n.onrender.com/api/v1/jobs?page=${page}&limit=${limit}`
-      );
+      const response = await fetch(`${BASE_URL}/api/v1/jobs/my-jobs`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       const result = await response.json();
 
       if (result.success) {
@@ -57,15 +59,12 @@ const ManageJobs = () => {
     if (!confirmDelete) return;
 
     try {
-      const response = await fetch(
-        `https://job-portal-877n.onrender.com/api/v1/jobs/${id}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      const response = await fetch(`${BASE_URL}/api/v1/jobs/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
 
       const result = await response.json();
 
@@ -108,10 +107,10 @@ const ManageJobs = () => {
         </h2>
         <button
           onClick={handleAddJob}
-          className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
+          className="flex items-center gap-2 bg-indigo-500 font-semibold text-gray-100 px-4 py-2 rounded-md hover:bg-indigo-600 transition"
         >
           <FiPlusCircle className="text-lg" />
-          Add Job
+          Post Job
         </button>
       </div>
 
@@ -129,11 +128,11 @@ const ManageJobs = () => {
                 key={job._id}
                 className="bg-white shadow-sm border p-4 rounded-lg flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
               >
-                <div>
+                <div className="">
                   <h3 className="text-lg font-semibold text-gray-800">
                     {job.jobTitle}
                   </h3>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-500 space-x-3">
                     Location: {job.location} | Applicants:{" "}
                     {job.applicants?.length || 0}
                   </p>
@@ -141,7 +140,7 @@ const ManageJobs = () => {
                     Posted on: {new Date(job.createdAt).toLocaleDateString()}
                   </p>
                 </div>
-                <div className="flex gap-3 justify-end">
+                <div className="flex gap-3 justify-end space-x-4">
                   <button
                     onClick={() => navigate(`/job/${job._id}/applicants`)}
                     className="flex items-center gap-1 text-green-600 hover:text-green-800 transition"

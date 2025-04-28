@@ -47,7 +47,7 @@ export const applyForJob = async (req, res) => {
   }
 };
 
-// Controller for getting all applications of an applicant
+// Controller for getting all applications of an applicant(jobseeker)
 export const getMyApplications = async (req, res) => {
   try {
     const applicantId = req.user._id;
@@ -73,7 +73,7 @@ export const getApplicantsByJob = async (req, res) => {
     const { jobId } = req.params;
 
     const applicants = await Application.find({ jobId })
-      .populate("applicantId", "fullName email phone resume") // Add resume field here
+      .populate("applicantId", "firstName lastName email contactNumber resume") // Add resume field here
       .sort({ createdAt: -1 })
       .lean();
 

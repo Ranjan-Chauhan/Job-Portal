@@ -56,46 +56,70 @@ export const getAllJobs = async (req, res) => {
   try {
     // Get query params
     const {
-      search,
+      search = "",
       location,
       jobType,
       experienceRequired,
+      salaryRange,
+      company,
       skills,
       page = 1,
       limit = 10,
       sort = "-createdAt",
     } = req.query;
 
+    const pageNumber = Number(page) || 1;
+    const limitNumber = Number(limit) || 10;
+    const skip = (pageNumber - 1) * limitNumber;
+
     // Build a filter object dynamically
     const filter = {};
 
     if (search) {
+      const searchRegex = { $regex: search, $options: "i" };
       filter.$or = [
-        { title: new RegExp(search, "i") },
-        { description: new RegExp(search, "i") },
-        { company: new RegExp(search, "i") },
+        { jobTitle: searchRegex },
+        { description: searchRegex },
+        { companyName: searchRegex },
+        { location: searchRegex },
+        { jobType: searchRegex },
+        { experienceRequired: searchRegex },
+        { skills: searchRegex },
       ];
     }
 
-    if (location) filter.location = location;
-    if (jobType) filter.jobType = jobType;
-    if (experienceRequired) filter.experienceRequired = experienceRequired;
+    if (location) filter.location = { $regex: location, $options: "i" };
+    if (jobType) filter.jobType = { $regex: jobType, $options: "i" };
+    if (experienceRequired)
+      filter.experienceRequired = { $regex: experienceRequired, $options: "i" };
+    if (company) filter.companyName = { $regex: company, $options: "i" };
     if (skills) {
       const skillArray = skills.split(",");
       filter.skillRequired = { $in: skillArray };
     }
 
+    if (salaryRange) {
+      filter.salaryRange = { $gte: Number(salaryRange) };
+    }
+
     // Fetch filtered jobs from DB
     // const jobs = await Job.find(filters).sort({ createdAt: -1 });
-    const skip = (page - 1) * limit;
+
     const jobs = await Job.find(filter)
       .sort(sort)
       .skip(skip)
-      .limit(Number(limit));
+      .limit(limitNumber);
 
     const total = await Job.countDocuments(filter);
+    const totalPages = Math.ceil(total / limitNumber);
 
-    res.status(200).json({ success: true, total, page: Number(page), jobs });
+    res.status(200).json({
+      success: true,
+      totalJobs: total,
+      totalPages,
+      page: pageNumber,
+      jobs,
+    });
   } catch (error) {
     console.error("Error fetching jobs: ", error);
     return res.status(500).json({
@@ -119,11 +143,10 @@ export const getJobById = async (req, res) => {
     }
 
     // Find job by ID and populate postedBy field
-    const job = await Job.findById(jobId);
-    // .populate(
-    //   "postedBy",
-    //   "firstName lastName email"
-    // );
+    const job = await Job.findById(jobId).populate(
+      "postedBy",
+      "firstName lastName email"
+    );
 
     if (!job) {
       return res.status(404).json({ success: false, message: "Job not found" });
@@ -216,6 +239,25 @@ export const deleteJob = async (req, res) => {
       message: "Failed to delete job",
       error: error.message,
     });
+  }
+};
+
+export const getEmployerJob = async (req, res) => {
+  try {
+    const jobs = await Job.find({ postedBy: req.user._id }).sort({
+      createdAt: -1,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Jobs fetched successfully",
+      jobs,
+    });
+  } catch (error) {
+    console.error("Error fetching employer jobs:", error);
+    res
+      .status(500)
+      .json({ success: false, message: error.message || "Server error" });
   }
 };
 

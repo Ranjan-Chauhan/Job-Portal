@@ -6,6 +6,7 @@ import {
   updateJob,
   deleteJob,
   searchJobs,
+  getEmployerJob,
 } from "../controllers/job.controller.js";
 import { verifyToken, authorizeRoles } from "../middlewares/auth.js";
 
@@ -15,6 +16,7 @@ const router = express.Router();
 router.post("/create", verifyToken, authorizeRoles("employer"), createJob);
 router.put("/:id", verifyToken, authorizeRoles("employer"), updateJob);
 router.delete("/:id", verifyToken, authorizeRoles("employer"), deleteJob);
+router.get("/my-jobs", verifyToken, authorizeRoles("employer"), getEmployerJob);
 
 // Public: All users can view jobs
 router.get("/", getAllJobs);

@@ -50,9 +50,10 @@ const register = async (req, res) => {
     // check if user exist
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res
-        .status(400)
-        .json({ error: "User already registered, Please sign in." });
+      return res.status(400).json({
+        success: false,
+        error: "User already registered, Please sign in.",
+      });
     }
 
     // Hash the password
@@ -92,9 +93,11 @@ const register = async (req, res) => {
     });
   } catch (error) {
     console.error(`Error registering user`, error);
-    res
-      .status(500)
-      .json({ message: "Registration failed. Please try again..." });
+    res.status(500).json({
+      success: false,
+      message: "Registration failed. Please try again...",
+      error: error.message,
+    });
   }
 };
 
@@ -136,15 +139,21 @@ const login = async (req, res) => {
       // user.token = token;
       user.password = undefined;
       // Set cookie for token and return success response
-      const options = {
-        expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
-        httpOnly: true,
-      };
-      res.cookie("token", token, options).status(200).json({
+      // const options = {
+      //   expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+      //   httpOnly: true,
+      // };
+      // res.cookie("token", token, options).status(200).json({
+      //   success: true,
+      //   token,
+      //   user,
+      //   message: `User Login Success`,
+      // });
+      res.status(200).json({
         success: true,
         token,
         user,
-        message: `User Login Success`,
+        message: "User login success",
       });
     } else {
       return res.status(401).json({
@@ -157,6 +166,7 @@ const login = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Login Failed, Please Try Again...",
+      error: error.message,
     });
   }
 };

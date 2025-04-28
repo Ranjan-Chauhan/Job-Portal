@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { FiArrowLeft, FiDownload } from "react-icons/fi";
 
-const BASE_URL = import.meta.env.VITE_BASE_URL;
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const ViewApplicants = () => {
   const { jobId } = useParams();
@@ -16,7 +16,7 @@ const ViewApplicants = () => {
     const fetchApplicants = async () => {
       try {
         const response = await fetch(
-          `https://job-portal-877n.onrender.com/api/v1/applications/job/${jobId}/applicants`,
+          `${BASE_URL}/api/v1/applications/job/${jobId}/applicants`,
           {
             method: "GET",
             headers: {
@@ -29,6 +29,7 @@ const ViewApplicants = () => {
 
         if (data.success) {
           setApplicants(data.applicants || []);
+          console.log("applicants :", data);
         } else {
           setError(data.message || "Failed to fetch applicants");
         }
@@ -79,6 +80,7 @@ const ViewApplicants = () => {
               <tr>
                 <th className="px-4 py-3">Name</th>
                 <th className="px-4 py-3">Email</th>
+                <th className="px-4 py-3">Contact Number</th>
                 <th className="px-4 py-3">Resume</th>
                 <th className="px-4 py-3">Applied On</th>
               </tr>
@@ -90,9 +92,13 @@ const ViewApplicants = () => {
                   className="border-b hover:bg-gray-50 transition"
                 >
                   <td className="px-4 py-3 font-medium">
-                    {applicant.applicantId.fullName}
+                    {applicant.applicantId.firstName}{" "}
+                    {applicant.applicantId.lastName}
                   </td>
                   <td className="px-4 py-3">{applicant.applicantId.email}</td>
+                  <td className="px-4 py-3">
+                    {applicant.applicantId.contactNumber}
+                  </td>
                   <td className="px-4 py-3">
                     <a
                       href={applicant.applicantId.resume}

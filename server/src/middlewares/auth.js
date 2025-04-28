@@ -19,31 +19,45 @@ export const verifyToken = async (req, res, next) => {
     }
 
     // 2. Verify token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    if (!decoded || !decoded.id) {
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      // console.log("decoded user: ", decoded);
+
+      // 3. Find user and attach to request
+      const user = await User.findById(decoded.id).populate(
+        "additionalDetails"
+      );
+
+      if (!user) {
+        return res.status(404).json({
+          success: false,
+          message: "User not found",
+        });
+      }
+
+      req.user = user;
+      next();
+    } catch (error) {
+      console.error("Error decoding token: ", error);
       return res.status(401).json({
         success: false,
         message: "Unauthorized: Invalid token",
+        error: error.message,
       });
     }
 
-    // 3. Find user and attach to request
-    const user = await User.findById(decoded.id).populate("additionalDetails");
-
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: "User not found",
-      });
-    }
-
-    req.user = user;
-    next();
+    // if (!decoded || !decoded.id) {
+    //   return res.status(401).json({
+    //     success: false,
+    //     message: "Unauthorized: Invalid token",
+    //   });
+    // }
   } catch (error) {
     console.error("verifyToken middleware error:", error);
-    return res.status(403).json({
+    return res.status(401).json({
       success: false,
       message: "Invalid or expired token",
+      error: error.message,
     });
   }
 };

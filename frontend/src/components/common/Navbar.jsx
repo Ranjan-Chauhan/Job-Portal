@@ -47,9 +47,15 @@ export default function Navbar() {
     navigate("/login");
   };
 
+  // const handleSearch = () => {
+  //   if (searchText.trim()) {
+  //     navigate(`/search?query=${encodeURIComponent(searchText)}`);
+  //   }
+  // };
+
   const handleSearch = () => {
     if (searchText.trim()) {
-      navigate(`/search?query=${encodeURIComponent(searchText)}`);
+      navigate(`/jobs?search=${encodeURIComponent(searchText)}`);
     }
   };
 
@@ -57,6 +63,7 @@ export default function Navbar() {
     color: isActive ? "#1976d2" : "inherit",
     textDecoration: "none",
     fontWeight: isActive ? "bold" : "normal",
+    // fontSize: isActive ? "h6.fontSize" : 16,
     display: "flex",
     alignItems: "center",
   });
@@ -65,7 +72,12 @@ export default function Navbar() {
     <AppBar position="static" color="default" elevation={3}>
       <Container maxWidth="lg">
         <Toolbar
-          sx={{ display: "flex", justifyContent: "space-between", gap: 2 }}
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            gap: 2,
+            height: 75,
+          }}
         >
           {/* Brand */}
           <Typography variant="h6" sx={{ fontWeight: "bold" }}>
@@ -75,12 +87,19 @@ export default function Navbar() {
           </Typography>
 
           {/* Center Nav */}
-          <Box sx={{ display: "flex", gap: 3, alignItems: "center" }}>
+          <Box
+            sx={{
+              display: "flex",
+              gap: 3,
+              alignItems: "center",
+              // fontWeight: "bold",
+            }}
+          >
             <NavLink to="/" style={navLinkStyles}>
-              Home
+              HOME
             </NavLink>
             <NavLink to="/jobs" style={navLinkStyles}>
-              Jobs
+              JOBS
             </NavLink>
 
             <Paper
@@ -93,7 +112,7 @@ export default function Navbar() {
                 p: "2px 8px",
                 display: "flex",
                 alignItems: "center",
-                width: 250,
+                width: 350,
                 borderRadius: 4,
                 boxShadow: 0,
                 border: "1px solid #ccc",
@@ -101,7 +120,7 @@ export default function Navbar() {
             >
               <InputBase
                 sx={{ ml: 1, flex: 1 }}
-                placeholder="Search jobs"
+                placeholder="Search for jobs, location and comapny"
                 inputProps={{ "aria-label": "search jobs" }}
                 value={searchText}
                 onChange={(e) => setSearchText(e.target.value)}

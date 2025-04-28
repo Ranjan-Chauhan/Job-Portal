@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router";
 import { IoArrowBackOutline } from "react-icons/io5";
 
-const BASE_URL = import.meta.env.VITE_BASE_URL;
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const JobDetails = () => {
   const { id } = useParams();
@@ -16,13 +16,12 @@ const JobDetails = () => {
   useEffect(() => {
     const fetchJobDetails = async () => {
       try {
-        const response = await fetch(
-          `https://job-portal-877n.onrender.com/api/v1/jobs/${id}`
-        );
+        const response = await fetch(`${BASE_URL}/api/v1/jobs/${id}`);
         const data = await response.json();
 
         if (response.ok) {
           setJob(data.job);
+          console.log("specific job data: ", data);
         } else {
           setError(data.message);
         }
@@ -54,7 +53,7 @@ const JobDetails = () => {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-10">
-      <div className="bg-white p-6 rounded-xl shadow-md space-y-6 relative">
+      <div className="bg-white p-6 rounded-xl shadow-md space-y-5 relative">
         {/* Back Arrow */}
         <button
           onClick={handleGoBack}
@@ -66,15 +65,18 @@ const JobDetails = () => {
 
         {/* Job Title and Info */}
         <div className="mt-6">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">
+          <h2 className="text-2xl text-center sm:text-3xl font-bold text-gray-800">
             {job.jobTitle}
           </h2>
-          <p className="text-gray-500 mt-1">
+          <p className="text-gray-500 mt-6 text-lg">
             {job.companyName} • {job.location}
           </p>
-          <p className="mt-2 text-blue-600 font-medium">{job.salaryRange}</p>
-          <p className="text-gray-500 mt-1">
-            Posted by: {job.postedBy.firstName} {job.postedBy.lastName}
+
+          <p className=" text-gray-700 text-lg mt-2 font-medium">
+            Salary :{" "}
+            <span className="text-blue-600 text-sm font-medium">
+              {job.salaryRange}
+            </span>
           </p>
         </div>
 
@@ -117,7 +119,7 @@ const JobDetails = () => {
         </div>
 
         {/* Requirements */}
-        <div>
+        {/* <div>
           <h3 className="text-lg font-semibold mb-2 text-gray-800">
             Requirements
           </h3>
@@ -130,7 +132,7 @@ const JobDetails = () => {
           ) : (
             <p className="text-gray-500">No requirements listed.</p>
           )}
-        </div>
+        </div> */}
 
         {/* Posted Date */}
         <div>
@@ -139,6 +141,19 @@ const JobDetails = () => {
           </h3>
           <p className="text-gray-700">
             {new Date(job.postedDate).toLocaleDateString()}
+          </p>
+        </div>
+
+        <div className="text-gray-700 text-lg font-medium mt-2 space-y-2 flex flex-col">
+          <p>
+            Posted by :{" "}
+            <span className="text-gray-600 font-semibold text-sm">
+              {job.postedBy.firstName} {job.postedBy.lastName}
+            </span>
+          </p>
+          <p className=" mt-2">
+            contact email :{" "}
+            <span className="text-gray-600 text-sm">{job.postedBy.email}</span>
           </p>
         </div>
 

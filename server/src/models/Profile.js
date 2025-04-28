@@ -21,6 +21,13 @@ const profileSchema = new Schema(
         ref: "Job",
       },
     ],
+
+    // JobsPosted: [
+    //   {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "Job",
+    //   },
+    // ],
   },
   {
     timestamps: true,

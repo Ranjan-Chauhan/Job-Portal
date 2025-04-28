@@ -25,6 +25,7 @@ const jobSchema = new mongoose.Schema(
       type: String,
       required: true,
       index: true,
+      trim: true,
     },
 
     salaryRange: { type: String },
@@ -33,16 +34,19 @@ const jobSchema = new mongoose.Schema(
       type: String,
       enum: ["full-time", "part-time", "contract", "internship", "remote"],
       default: "full-time",
+      index: true,
     },
 
     skillRequired: {
       type: [String],
       default: [],
+      index: true,
     },
 
     experienceRequired: {
       type: String,
       default: "fresher",
+      index: true,
     },
 
     postedBy: {
@@ -52,10 +56,8 @@ const jobSchema = new mongoose.Schema(
     },
 
     postedDate: {
-      postedDate: {
-        type: Date,
-        default: Date.now,
-      },
+      type: Date,
+      default: Date.now,
     },
 
     isActive: {
