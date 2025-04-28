@@ -1,3 +1,5 @@
+import fs from "fs";
+import path from "path";
 import { Application } from "../models/Application.js";
 import { Job } from "../models/Job.js";
 
@@ -7,6 +9,8 @@ export const applyForJob = async (req, res) => {
     const resume = req.file;
     const jobId = req.params.id;
     const applicantId = req.user._id;
+
+    // console.log("file: ", req.file);
 
     // Check if job exists
     const job = await Job.findById(jobId);
@@ -32,9 +36,17 @@ export const applyForJob = async (req, res) => {
     const application = await Application.create({
       jobId,
       applicantId,
-      resume: "", // resume url
+      resume: resume.filename, // resume url
       coverLetter,
     });
+
+    // Add the applicant to the job's applicants field
+    job.applicants.push({
+      user: applicantId,
+    });
+
+    // Save the updated job document
+    await job.save();
 
     res.status(201).json({
       success: true,
@@ -72,25 +84,29 @@ export const getApplicantsByJob = async (req, res) => {
   try {
     const { jobId } = req.params;
 
-    const applicants = await Application.find({ jobId })
+    const applications = await Application.find({ jobId })
       .populate("applicantId", "firstName lastName email contactNumber resume") // Add resume field here
       .sort({ createdAt: -1 })
       .lean();
 
+    // Count total applicants for the given job
+    const totalApplicants = await Application.countDocuments({ jobId });
+
     // Format the appliedAt date
-    applicants.forEach((applicant) => {
+    applications.forEach((applicant) => {
       applicant.appliedAt = new Date(applicant.createdAt).toLocaleDateString(); // Format the appliedAt date
     });
 
-    res.status(200).json({ success: true, applicants });
+    res
+      .status(200)
+      .json({ success: true, applicant: totalApplicants, applications });
   } catch (error) {
     console.error("Fetch Applicants Error:", error);
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
 
-// @desc   Update application status (Admin/Employer action)
-// @route  PATCH /api/applications/:id/status
+// Update application status (Admin/Employer action)
 export const updateApplicationStatus = async (req, res) => {
   try {
     const { id } = req.params;
@@ -111,6 +127,76 @@ export const updateApplicationStatus = async (req, res) => {
     res.status(200).json({ success: true, updated });
   } catch (error) {
     console.error("Status Update Error:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+//
+export const downloadResume = async (req, res) => {
+  try {
+    const { applicationId } = req.params;
+    const currentUserId = req.user.id;
+    const currentUserRole = req.user.accountType;
+
+    // 1. Find the application
+    const application = await Application.findById(applicationId);
+    if (!application) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Application not found" });
+    }
+
+    // 2. Find the job associated with the application
+    const job = await Job.findById(application.jobId);
+    if (!job) {
+      return res.status(404).json({ success: false, message: "Job not found" });
+    }
+
+    // 3. Authorization check:
+    // Only the employer who posted the job can download the resume
+    if (
+      job.postedBy.toString() !== currentUserId.toString() ||
+      currentUserRole !== "employer"
+    ) {
+      return res.status(403).json({
+        success: false,
+        message: "Unauthorized to download this resume",
+      });
+    }
+
+    // 4. Resume file path
+    const resumeDirectory = path.join(process.cwd(), "uploads", "resumes");
+    const resumePath = path.join(resumeDirectory, application.resume);
+
+    // 5. Check if the file exists and is not a directory
+    fs.stat(resumePath, (err, stats) => {
+      if (err) {
+        console.error("Error accessing file:", err);
+        return res
+          .status(500)
+          .json({ success: false, message: "Failed to access resume file" });
+      }
+
+      if (stats.isDirectory()) {
+        console.error("Resume path is a directory, not a file.");
+        return res.status(500).json({
+          success: false,
+          message: "Resume file is invalid (directory instead of file)",
+        });
+      }
+
+      // 6. Send the file download response
+      res.download(resumePath, application.resume, (err) => {
+        if (err) {
+          console.error("Error sending file:", err);
+          res
+            .status(500)
+            .json({ success: false, message: "Failed to download resume" });
+        }
+      });
+    });
+  } catch (error) {
+    console.error("Server Error:", error);
     res.status(500).json({ success: false, message: "Server error" });
   }
 };

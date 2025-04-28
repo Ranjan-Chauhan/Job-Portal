@@ -3,6 +3,7 @@ import {
   applyForJob,
   getMyApplications,
   getApplicantsByJob,
+  downloadResume,
 } from "../controllers/application.controller.js";
 import { verifyToken, authorizeRoles } from "../middlewares/auth.js";
 import { upload } from "../middlewares/upload.js";
@@ -33,5 +34,8 @@ router.get(
   authorizeRoles("employer"),
   getApplicantsByJob
 );
+
+// Only authenticated users can request download
+router.get("/download/:applicationId", verifyToken, downloadResume);
 
 export default router;

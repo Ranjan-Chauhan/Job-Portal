@@ -198,7 +198,7 @@ export default function SignUp() {
               }}
             />
 
-            <FormControl fullWidth required>
+            <FormControl fullWidth>
               <InputLabel shrink>Upload Profile Image</InputLabel>
               <OutlinedInput
                 type="file"
@@ -240,13 +240,21 @@ export default function SignUp() {
                     ))}
                   </Select>
                 </FormControl>
-                <TextField
-                  name="experience"
-                  label="Experience"
-                  value={formData.experience}
-                  onChange={handleChange}
-                  fullWidth
-                />
+                {/* Experience dropdown */}
+                <FormControl fullWidth>
+                  <InputLabel>Experience Level</InputLabel>
+                  <Select
+                    name="experience"
+                    value={formData.experience}
+                    onChange={handleChange}
+                    label="Experience Level"
+                  >
+                    <MenuItem value="fresher">Fresher</MenuItem>
+                    <MenuItem value="1-3 years">1-3 years</MenuItem>
+                    <MenuItem value="3-5 years">3-5 years</MenuItem>
+                    <MenuItem value="5+ years">5+ years</MenuItem>
+                  </Select>
+                </FormControl>
               </>
             )}
 

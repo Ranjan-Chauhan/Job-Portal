@@ -7,7 +7,7 @@ import { logout } from "../../../redux/slices/authSlice";
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-const ApplyJob = () => {
+const ApplyForJob = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -96,7 +96,7 @@ const ApplyJob = () => {
 
       <form
         onSubmit={handleSubmit}
-        className="bg-white shadow-md p-6 flex flex-col justify-center items-center rounded-xl space-y-5"
+        className="bg-gray-50 shadow-lg p-6 flex flex-col justify-center items-center rounded-xl space-y-5"
         encType="multipart/form-data"
       >
         {/* Resume Upload */}
@@ -140,4 +140,4 @@ const ApplyJob = () => {
   );
 };
 
-export default ApplyJob;
+export default ApplyForJob;

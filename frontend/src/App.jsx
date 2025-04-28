@@ -5,7 +5,7 @@ import Navbar from "./components/common/Navbar";
 import Home from "./components/common/Home";
 import Jobs from "./components/core/jobs/Jobs";
 import Dashboard from "./components/core/user/Dashboard";
-import ApplyJob from "./components/core/jobs/ApplyJob";
+import ApplyForJob from "./components/core/jobs/ApplyForJob";
 import JobDetails from "./components/core/jobs/JobDetails";
 import Profile from "./components/core/user/Profile";
 import ManageJobs from "./components/core/jobs/ManageJobs";
@@ -34,7 +34,7 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/profile" element={<Profile />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/apply/:id" element={<ApplyJob />} />
+          <Route path="/apply/:id" element={<ApplyForJob />} />
         </Route>
 
         {/* Employer-specific routes */}

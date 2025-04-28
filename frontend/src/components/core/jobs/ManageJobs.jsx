@@ -29,9 +29,12 @@ const ManageJobs = () => {
         },
       });
       const result = await response.json();
+      // console.log("result: ", result);
 
       if (result.success) {
         setJobPosts(result.jobs);
+        console.log("jobs: ", result.jobs);
+
         setTotal(result.total || 0);
       } else {
         setError(result.message || "Failed to fetch jobs");
