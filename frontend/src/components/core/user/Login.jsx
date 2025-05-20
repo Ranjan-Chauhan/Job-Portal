@@ -58,7 +58,7 @@ export default function Login() {
         alert(data.message || "Login failed");
       }
     } catch (error) {
-      console.error(error);
+      console.log(error);
       alert("Something went wrong. Try again.");
     }
 

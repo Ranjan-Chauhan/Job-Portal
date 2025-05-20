@@ -96,13 +96,13 @@ const ApplyForJob = () => {
 
       <form
         onSubmit={handleSubmit}
-        className="bg-stone-50 shadow-lg p-6 flex flex-col justify-center items-center rounded-xl space-y-5"
+        className="bg-pink-50 shadow-lg p-6 flex flex-col justify-center items-center rounded-xl space-y-5"
         encType="multipart/form-data"
       >
         {/* Resume Upload */}
         <div className="sm:w-4/5 ">
           <label className="block text-sm font-medium mb-1">Resume (pdf)</label>
-          <div className="flex items-center gap-3 border px-3 py-2 rounded-md bg-gray-50">
+          <div className="flex items-center gap-3 border px-3 py-2 rounded-md bg-pink-50">
             <IoCloudUploadOutline className="text-2xl text-gray-500" />
             <input
               type="file"
@@ -124,7 +124,7 @@ const ApplyForJob = () => {
             placeholder="Write a short cover letter..."
             value={formData.coverLetter}
             onChange={handleChange}
-            className="w-full border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 rounded-md border focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 

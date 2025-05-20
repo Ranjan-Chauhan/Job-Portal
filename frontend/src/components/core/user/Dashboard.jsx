@@ -22,7 +22,7 @@ const Dashboard = () => {
         {/* Main Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 bg-blend-color-burn">
           {/* Shared Profile Card */}
-          <div className="bg-stone-50 shadow-md rounded-xl p-5 hover:shadow-lg transition">
+          <div className="bg-green-50 shadow-md rounded-xl p-5 hover:shadow-lg transition">
             <h3 className="text-xl font-semibold text-gray-800 mb-2">
               Your Profile
             </h3>
@@ -41,7 +41,7 @@ const Dashboard = () => {
           {user.accountType === "employer" ? (
             <>
               {/* Manage Job Postings */}
-              <div className="bg-stone-50 shadow-md rounded-xl p-5 hover:shadow-lg transition">
+              <div className="bg-red-50 shadow-md rounded-xl p-5 hover:shadow-lg transition">
                 <h3 className="text-xl font-semibold text-gray-800 mb-2">
                   Manage Job Postings
                 </h3>
@@ -57,7 +57,7 @@ const Dashboard = () => {
               </div>
 
               {/* View Applicants */}
-              <div className="bg-stone-50 shadow-md rounded-xl p-5 hover:shadow-lg transition">
+              <div className="bg-lime-100 shadow-md rounded-xl p-5 hover:shadow-lg transition">
                 <h3 className="text-xl font-semibold text-gray-800 mb-2">
                   View Applicants
                 </h3>
@@ -75,7 +75,7 @@ const Dashboard = () => {
           ) : (
             <>
               {/* Track Applied Jobs */}
-              <div className="bg-white shadow-md rounded-xl p-5 hover:shadow-lg transition">
+              <div className="bg-orange-50 shadow-md rounded-xl p-5 hover:shadow-lg transition">
                 <h3 className="text-xl font-semibold text-gray-800 mb-2">
                   Applied Jobs
                 </h3>
@@ -91,7 +91,7 @@ const Dashboard = () => {
               </div>
 
               {/* Manage Applications */}
-              <div className="bg-white shadow-md rounded-xl p-5 hover:shadow-lg transition">
+              <div className="bg-pink-50 shadow-md rounded-xl p-5 hover:shadow-lg transition">
                 <h3 className="text-xl font-semibold text-gray-800 mb-2">
                   Manage Applications
                 </h3>
