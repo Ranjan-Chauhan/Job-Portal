@@ -52,7 +52,7 @@ const JobDetails = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto h-[100vh] px-4 py-10">
+    <div className="max-w-4xl mx-auto h-auto px-4 py-10">
       <div className="bg-stone-50 p-6 rounded-xl shadow-md space-y-5 relative">
         {/* Back Arrow */}
         <button

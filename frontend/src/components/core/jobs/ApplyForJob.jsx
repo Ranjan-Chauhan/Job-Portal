@@ -96,12 +96,12 @@ const ApplyForJob = () => {
 
       <form
         onSubmit={handleSubmit}
-        className="bg-gray-50 shadow-lg p-6 flex flex-col justify-center items-center rounded-xl space-y-5"
+        className="bg-stone-50 shadow-lg p-6 flex flex-col justify-center items-center rounded-xl space-y-5"
         encType="multipart/form-data"
       >
         {/* Resume Upload */}
         <div className="sm:w-4/5 ">
-          <label className="block text-sm font-medium mb-1">Resume (PDF)</label>
+          <label className="block text-sm font-medium mb-1">Resume (pdf)</label>
           <div className="flex items-center gap-3 border px-3 py-2 rounded-md bg-gray-50">
             <IoCloudUploadOutline className="text-2xl text-gray-500" />
             <input
