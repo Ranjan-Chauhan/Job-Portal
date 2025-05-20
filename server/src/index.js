@@ -8,19 +8,16 @@ import authRoutes from "./routes/auth.routes.js";
 import jobRoutes from "./routes/job.routes.js";
 import profileRoutes from "./routes/profile.routes.js";
 import applicationRoutes from "./routes/application.routes.js";
+// import "./utils/cronJob.js";
 
 const app = express();
 
-// app.use(
-//   cors({
-//     origin: process.env.CORS_ORIGIN,
-//     credentials: true,
-//   })
-// );
-
 app.use(
   cors({
-    origin: [process.env.CORS_ORIGIN],
+    origin: [
+      process.env.CORS_ORIGIN,
+      "https://job-portal-livid-nine.vercel.app",
+    ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],

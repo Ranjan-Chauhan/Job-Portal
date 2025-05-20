@@ -60,10 +60,10 @@ export default function Navbar() {
   };
 
   const navLinkStyles = ({ isActive }) => ({
-    color: isActive ? "#1976d2" : "inherit",
+    color: isActive ? "#1976d2" : "#2a2a2a",
     textDecoration: "none",
-    fontWeight: isActive ? "bold" : "normal",
-    // fontSize: isActive ? "h6.fontSize" : 16,
+    fontWeight: isActive ? "bold" : "medium",
+    fontSize: isActive ? "h6.fontSize" : "default",
     display: "flex",
     alignItems: "center",
   });
@@ -92,14 +92,15 @@ export default function Navbar() {
               display: "flex",
               gap: 3,
               alignItems: "center",
-              // fontWeight: "bold",
+              fontWeight: "bold",
+              fontSize: 16,
             }}
           >
             <NavLink to="/" style={navLinkStyles}>
-              HOME
+              Home
             </NavLink>
             <NavLink to="/jobs" style={navLinkStyles}>
-              JOBS
+              Jobs
             </NavLink>
 
             <Paper
@@ -113,7 +114,7 @@ export default function Navbar() {
                 display: "flex",
                 alignItems: "center",
                 width: 350,
-                borderRadius: 4,
+                borderRadius: 1.5,
                 boxShadow: 0,
                 border: "1px solid #ccc",
               }}

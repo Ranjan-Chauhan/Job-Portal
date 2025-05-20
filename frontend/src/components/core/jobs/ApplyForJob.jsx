@@ -89,7 +89,7 @@ const ApplyForJob = () => {
   };
 
   return (
-    <div className="max-w-xl mx-auto px-4 py-10">
+    <div className="max-w-xl mx-auto h-[100vh] px-4 py-10">
       <h1 className="text-xl sm:text-3xl font-bold text-center text-gray-800 mb-8">
         Apply for Job #{id}
       </h1>

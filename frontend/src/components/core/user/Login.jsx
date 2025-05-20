@@ -58,6 +58,7 @@ export default function Login() {
         alert(data.message || "Login failed");
       }
     } catch (error) {
+      console.error(error);
       alert("Something went wrong. Try again.");
     }
 
@@ -65,58 +66,72 @@ export default function Login() {
   };
 
   return (
-    <Container
-      maxWidth="sm"
-      sx={{ py: 10, display: "flex", alignItems: "center" }}
-    >
-      <Card sx={{ width: "100%", p: 2, borderRadius: 3, boxShadow: 3 }}>
-        <CardContent>
-          <Typography variant="h5" textAlign="center" fontWeight="bold" mb={2}>
-            Login
-          </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            sx={{ display: "grid", gap: 2 }}
-          >
-            <TextField
-              label="Email Address"
-              name="email"
-              fullWidth
-              required
-              type="email"
-              value={form.email}
-              onChange={handleChange}
-            />
-            <TextField
-              label="Password"
-              name="password"
-              fullWidth
-              required
-              type={showPassword ? "text" : "password"}
-              value={form.password}
-              onChange={handleChange}
-              InputProps={{
-                endAdornment: (
-                  <IconButton onClick={() => setShowPassword((prev) => !prev)}>
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                ),
-              }}
-            />
-            <Button
-              variant="contained"
-              color="warning"
-              fullWidth
-              type="submit"
-              disabled={loading}
-              sx={{ fontWeight: "bold", py: 1.2 }}
+    <div className="h-[100vh]">
+      <Container
+        maxWidth="sm"
+        sx={{
+          display: "flex",
+          py: 10,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Card sx={{ width: "100%", p: 2, borderRadius: 3, boxShadow: 3 }}>
+          <CardContent>
+            <Typography
+              variant="h5"
+              textAlign="center"
+              fontWeight="bold"
+              mb={2}
             >
-              {loading ? "Logging in..." : "LOGIN"}
-            </Button>
-          </Box>
-        </CardContent>
-      </Card>
-    </Container>
+              Login
+            </Typography>
+            <Box
+              component="form"
+              onSubmit={handleSubmit}
+              sx={{ display: "grid", gap: 2 }}
+            >
+              <TextField
+                label="Email Address"
+                name="email"
+                fullWidth
+                required
+                type="email"
+                value={form.email}
+                onChange={handleChange}
+              />
+              <TextField
+                label="Password"
+                name="password"
+                fullWidth
+                required
+                type={showPassword ? "text" : "password"}
+                value={form.password}
+                onChange={handleChange}
+                InputProps={{
+                  endAdornment: (
+                    <IconButton
+                      onClick={() => setShowPassword((prev) => !prev)}
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  ),
+                }}
+              />
+              <Button
+                variant="contained"
+                color="warning"
+                fullWidth
+                type="submit"
+                disabled={loading}
+                sx={{ fontWeight: "bold", py: 1.2 }}
+              >
+                {loading ? "Logging in..." : "LOGIN"}
+              </Button>
+            </Box>
+          </CardContent>
+        </Card>
+      </Container>
+    </div>
   );
 }

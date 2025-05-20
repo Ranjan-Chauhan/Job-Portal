@@ -1,11 +1,20 @@
+// import axios from "axios";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Home() {
   const navigate = useNavigate();
 
+  // useEffect(() => {
+  //   try {
+  //     const response = axios.get("");
+  //   } catch (error) {
+  //     console.log("error during check login", error);
+  //   }
+  // }, []);
+
   return (
-    <div className="px-4 py-12 max-w-7xl mx-auto min-h-screen">
+    <div className="px-4 py-12 max-w-7xl mx-auto h-[100vh]">
       {/* Hero Section */}
       <div className="text-center mb-16">
         <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">

@@ -46,7 +46,7 @@ const CreateJob = () => {
   };
 
   return (
-    <div className="max-w-lg mx-auto bg-white p-6 shadow-md rounded-lg mt-10">
+    <div className="max-w-lg mx-auto h-[100vh] bg-white p-6 shadow-md rounded-lg mt-10">
       <h2 className="text-2xl font-bold mb-4">Create Job</h2>
       {error && <div className="text-red-500 mb-4">{error}</div>}
       <form onSubmit={handleSubmit}>

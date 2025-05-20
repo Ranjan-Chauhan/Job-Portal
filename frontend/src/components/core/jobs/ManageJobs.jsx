@@ -95,7 +95,7 @@ const ManageJobs = () => {
   const totalPages = Math.ceil(total / limit);
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-10">
+    <div className="max-w-5xl mx-auto h-[100vh] px-4 py-10">
       <button
         onClick={handleBack}
         className="flex items-center text-blue-600 hover:text-blue-800 transition mb-4"

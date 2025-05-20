@@ -26,7 +26,7 @@ const JobDetails = () => {
           setError(data.message);
         }
       } catch (error) {
-        setError("An error occurred while fetching the job details.");
+        setError(error);
       } finally {
         setLoading(false);
       }
@@ -52,8 +52,8 @@ const JobDetails = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-10">
-      <div className="bg-white p-6 rounded-xl shadow-md space-y-5 relative">
+    <div className="max-w-4xl mx-auto h-[100vh] px-4 py-10">
+      <div className="bg-stone-50 p-6 rounded-xl shadow-md space-y-5 relative">
         {/* Back Arrow */}
         <button
           onClick={handleGoBack}
@@ -74,15 +74,15 @@ const JobDetails = () => {
 
           <p className=" text-gray-700 text-lg mt-2 font-medium">
             Salary :{" "}
-            <span className="text-blue-600 text-sm font-medium">
+            <span className="text-blue-500 text-sm font-medium">
               {job.salaryRange}
             </span>
           </p>
         </div>
 
         {/* Job Type */}
-        <div>
-          <h3 className="text-lg font-semibold mb-2 text-gray-800">Job Type</h3>
+        <div className="flex justify-start items-center space-x-4">
+          <p className="text-lg font-semibold text-gray-800">Job Type :</p>
           <p className="text-gray-700">{job.jobType}</p>
         </div>
 
@@ -111,10 +111,10 @@ const JobDetails = () => {
         </div>
 
         {/* Experience Required */}
-        <div>
-          <h3 className="text-lg font-semibold mb-2 text-gray-800">
-            Experience Required
-          </h3>
+        <div className="flex justify-start items-center space-x-4">
+          <p className="text-lg font-semibold text-gray-800">
+            Experience Required :
+          </p>
           <p className="text-gray-700">{job.experienceRequired}</p>
         </div>
 
@@ -135,26 +135,23 @@ const JobDetails = () => {
         </div> */}
 
         {/* Posted Date */}
-        <div>
-          <h3 className="text-lg font-semibold mb-2 text-gray-800">
-            Posted Date
-          </h3>
+        <div className="flex justify-items-center items-center space-x-4">
+          <p className="text-lg font-semibold text-gray-800">Posted Date :</p>
           <p className="text-gray-700">
             {new Date(job.postedDate).toLocaleDateString()}
           </p>
         </div>
 
-        <div className="text-gray-700 text-lg font-medium mt-2 space-y-2 flex flex-col">
-          <p>
-            Posted by :{" "}
-            <span className="text-gray-600 font-semibold text-sm">
-              {job.postedBy.firstName} {job.postedBy.lastName}
-            </span>
+        <div className="flex justify-items-center items-center space-x-4">
+          <p className="text-lg font-semibold text-gray-800">Posted By :</p>
+          <p className="text-gray-700">
+            {job.postedBy.firstName} {job.postedBy.lastName}
           </p>
-          <p className=" mt-2">
-            contact email :{" "}
-            <span className="text-gray-600 text-sm">{job.postedBy.email}</span>
-          </p>
+        </div>
+
+        <div className="flex justify-items-center items-center space-x-4">
+          <p className="text-lg font-semibold text-gray-800">Contact Email :</p>
+          <p className="text-gray-700">{job.postedBy.email}</p>
         </div>
 
         {/* Apply Button */}

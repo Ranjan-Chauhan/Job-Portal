@@ -5,12 +5,12 @@ import { User } from "../models/User.js";
 
 export const verifyToken = async (req, res, next) => {
   try {
-    // 1. Extract token
+    // Extract token
     const token =
       req.cookies?.token ||
       req.body?.token ||
       req.header("Authorization")?.replace("Bearer ", "") ||
-      req.query?.token; // <-- allow token in query params
+      req.query?.token; // allow token in query params
 
     if (!token) {
       return res.status(401).json({
@@ -63,7 +63,7 @@ export const verifyToken = async (req, res, next) => {
   }
 };
 
-// Middleware: Allow only specific roles
+// Middleware Allow roles
 export const authorizeRoles = (...allowedRoles) => {
   return (req, res, next) => {
     const userRole = req.user?.accountType;

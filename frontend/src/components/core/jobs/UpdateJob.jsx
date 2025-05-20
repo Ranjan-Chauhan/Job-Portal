@@ -80,7 +80,7 @@ const UpdateJob = () => {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <div className="max-w-xl mx-auto bg-white p-4 px-10 shadow-md rounded-lg mt-8">
+    <div className="max-w-xl mx-auto h-[100vh] bg-white p-4 px-10 shadow-md rounded-lg mt-8">
       <h2 className="text-2xl text-center font-bold">Update Job</h2>
       {error && <div className="text-red-500 mb-4">{error}</div>}
       <form onSubmit={handleSubmit} className="space-y-1 mb-4">

@@ -92,14 +92,14 @@ export default function SignUp() {
   };
 
   return (
-    <Container maxWidth="sm" sx={{ py: 8 }}>
+    <Container maxWidth="sm" sx={{ py: 10, height: "100vh" }}>
       <Card variant="outlined" sx={{ borderRadius: 3, boxShadow: 3 }}>
         <CardContent>
           <Box display="flex" justifyContent="center" mb={2}>
             <ToggleButtonGroup
               value={accountType}
               exclusive
-              color="secondary"
+              color="primary"
               onChange={handleToggle}
               sx={{
                 borderRadius: 2,

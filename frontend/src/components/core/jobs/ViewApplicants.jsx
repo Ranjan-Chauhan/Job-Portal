@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { FiArrowLeft, FiDownload } from "react-icons/fi";
 import { useDispatch } from "react-redux";
 import { logout } from "../../../redux/slices/authSlice";
+import { FcViewDetails } from "react-icons/fc";
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -140,6 +141,8 @@ const ViewApplicants = () => {
     }
   };
 
+  const handleViewFullDetails = () => {};
+
   const logoutAndRedirect = () => {
     alert("Session expired. Please login again.");
 
@@ -159,7 +162,7 @@ const ViewApplicants = () => {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-10">
+    <div className="max-w-6xl mx-auto h-[100vh] px-4 py-10">
       {/* Back Arrow */}
       <button
         onClick={handleBack}
@@ -169,7 +172,7 @@ const ViewApplicants = () => {
         Back
       </button>
 
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">
+      <h2 className="text-2xl text-center font-bold text-gray-800 mb-8">
         Applicants for Job #{jobId}
       </h2>
 
@@ -185,13 +188,14 @@ const ViewApplicants = () => {
                 <th className="px-4 py-3">Contact Number</th>
                 <th className="px-4 py-3">Resume</th>
                 <th className="px-4 py-3">Applied On</th>
+                <th className="px-4 py-3">View full details</th>
               </tr>
             </thead>
             <tbody>
               {applicants.map((application) => (
                 <tr
                   key={application._id}
-                  className="border-b hover:bg-gray-50 transition"
+                  className="border-b hover:bg-gray-50 transition ml-2"
                 >
                   <td className="px-4 py-3 font-medium">
                     {application.applicantId.firstName}{" "}
@@ -210,6 +214,14 @@ const ViewApplicants = () => {
                     </button>
                   </td>
                   <td className="px-4 py-3">{application.appliedAt}</td>
+                  <td className="px-4 py-3">
+                    <button
+                      onClick={() => handleViewFullDetails(application._id)}
+                      className="flex items-center justify-center text-blue-600 hover:text-blue-800"
+                    >
+                      <FcViewDetails className="mr-1 ml-4" /> View
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>

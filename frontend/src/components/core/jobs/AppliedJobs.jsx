@@ -56,7 +56,7 @@ const AppliedJobs = () => {
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-10">
+    <div className="max-w-5xl mx-auto h-[100vh] px-4 py-10">
       {/* Back Arrow */}
       <div className="mb-4">
         <button
@@ -81,7 +81,7 @@ const AppliedJobs = () => {
           {appliedJobs.map((job) => (
             <div
               key={job._id}
-              className="bg-white p-4 shadow-sm border rounded-lg flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4"
+              className="bg-white p-4 shadow-sm border border-gray-500 rounded-lg flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4"
             >
               <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                 <IoBriefcaseOutline className="text-2xl text-blue-600" />

@@ -2,7 +2,7 @@ import multer from "multer";
 import path from "path";
 import crypto from "crypto";
 
-// === Storage Config ===
+// Storage Config
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     if (file.fieldname === "resume") {
@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
   filename: (req, file, cb) => {
     const ext = path.extname(file.originalname);
 
-    // Generate a unique random string (like 'aef0af9e...')
+    // Generate a unique random string
     const randomName = crypto.randomBytes(10).toString("hex");
 
     // Sanitize original filename (remove spaces/special chars)
@@ -29,7 +29,7 @@ const storage = multer.diskStorage({
   },
 });
 
-// === File Filter ===
+// File Filter
 const fileFilter = (req, file, cb) => {
   if (file.fieldname === "resume") {
     if (file.mimetype !== "application/pdf") {
@@ -46,7 +46,7 @@ const fileFilter = (req, file, cb) => {
   cb(null, true);
 };
 
-// === Multer Uploaders ===
+// Multer Uploaders
 export const upload = multer({
   storage,
   fileFilter,

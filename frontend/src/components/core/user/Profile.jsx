@@ -21,8 +21,8 @@ const Profile = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-10 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto bg-white p-6 rounded-xl shadow-md">
+    <div className="h-[100vh] py-10 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-3xl mx-auto bg-stone-50 p-6 rounded-xl shadow-md">
         <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 text-center">
           Your Profile
         </h2>
@@ -49,9 +49,10 @@ const Profile = () => {
               type="email"
               name="email"
               value={user.email}
-              onChange={handleChange}
-              className="w-full border px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              disabled
+              // onChange={handleChange}
+              readOnly
+              className="w-full border px-4 py-2 rounded-md bg-gray-100 text-gray-600 cursor-not-allowed"
+              // disabled
             />
           </div>
 
