@@ -7,8 +7,7 @@ const Footer = () => {
       <p>&copy; {new Date().getFullYear()} JobPortal. All rights reserved.</p>
       <p className="flex justify-center items-center space-x-2">
         <SiGamedeveloper className="text-orange-500" />
-        Developed By :
-        <span className="text-orange-500 ml-2">Ranjan Chauhan</span>
+        Developer :<span className="text-orange-500 ml-2">Ranjan Chauhan</span>
       </p>
     </footer>
   );

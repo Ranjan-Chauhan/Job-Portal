@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { IoCloudUploadOutline } from "react-icons/io5";
 import axios from "axios";
