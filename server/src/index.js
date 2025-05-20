@@ -14,10 +14,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: [
-      process.env.CORS_ORIGIN,
-      "https://job-portal-livid-nine.vercel.app",
-    ],
+    origin: [process.env.CORS_ORIGIN],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
