@@ -53,7 +53,8 @@ Start the Client
 cd client
 npm start
 ```
-Now you can access the application at http://localhost:3000
+
+Visit Live Application :  https://job-portal-livid-nine.vercel.app/
 
 ### Features & Implementation Details
 1. **User Authentication (JWT) :**  Role bases Authentication for Users (jobseekers & employers).
