@@ -16,7 +16,7 @@
     "@mui/material": "^7.0.2",
     "@reduxjs/toolkit": "^2.7.0",
     "@tailwindcss/vite": "^4.1.4",
-    "axios": "^1.8.4",
+    "axios": "^1.13.5",
     "dotenv": "^16.5.0",
     "jsonwebtoken": "^9.0.2",
     "react": "^19.0.0",
